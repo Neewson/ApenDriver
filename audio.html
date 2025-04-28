@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Áudios - ApenDriver</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="dashboard.html">
+                    <i class="fas fa-cloud"></i> ApenDriver
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="dashboard.html">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="audio.html">Áudios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="video.html">Vídeos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="images.html">Imagens</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle me-1"></i> Usuário
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Perfil</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Configurações</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="index.html"><i class="fas fa-sign-out-alt me-2"></i>Sair</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 bg-light sidebar p-0">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="dashboard.html">
+                                <i class="fas fa-tachometer-alt me-2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="audio.html">
+                                <i class="fas fa-music me-2"></i>
+                                Áudios
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="video.html">
+                                <i class="fas fa-video me-2"></i>
+                                Vídeos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="images.html">
+                                <i class="fas fa-images me-2"></i>
+                                Imagens
+                            </a>
+                        </li>
+                        <li class="nav-item mt-3">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-trash me-2"></i>
+                                Lixeira
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-cog me-2"></i>
+                                Configurações
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <div class="storage-info p-3 mt-4">
+                        <h6>Armazenamento</h6>
+                        <div class="progress mb-2" style="height: 8px;">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <small class="text-muted">2.5 GB de 10 GB utilizados</small>
+                        <a href="#" class="btn btn-sm btn-outline-primary d-block mt-3">Upgrade</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main content -->
+            <div class="col-lg-10 main-content p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-music me-2 text-primary"></i> Áudios</h2>
+                    <div>
+                        <button class="btn btn-outline-secondary me-2">
+                            <i class="fas fa-filter me-1"></i> Filtrar
+                        </button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadAudioModal">
+                            <i class="fas fa-upload me-1"></i> Upload
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Audio player -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body">
+                        <div id="audioPlayer" class="audio-player">
+                            <div class="row align-items-center">
+                                <div class="col-md-2">
+                                    <img src="img/album-cover.jpg" alt="Album Cover" class="img-fluid rounded" id="currentAudioCover">
+                                </div>
+                                <div class="col-md-10">
+                                    <h5 id="currentAudioTitle">Selecione um áudio para reproduzir</h5>
+                                    <p class="text-muted mb-2" id="currentAudioArtist">Artista</p>
+                                    
+                                    <div class="d-flex align-items-center mb-3">
+                                        <span id="currentTime" class="me-2">0:00</span>
+                                        <div class="progress flex-grow-1" style="height: 6px;">
+                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 0%;" id="audioProgress"></div>
+                                        </div>
+                                        <span id="duration" class="ms-2">0:00</span>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <button class="btn btn-light rounded-circle me-3" id="prevBtn">
+                                            <i class="fas fa-step-backward"></i>
+                                        </button>
+                                        <button class="btn btn-primary rounded-circle me-3" id="playPauseBtn" style="width: 50px; height: 50px;">
+                                            <i class="fas fa-play"></i>
+                                        </button>
+                                        <button class="btn btn-light rounded-circle me-3" id="nextBtn">
+                                            <i class="fas fa-step-forward"></i>
+                                        </button>
+                                        <button class="btn btn-light rounded-circle me-3" id="shuffleBtn">
+                                            <i class="fas fa-random"></i>
+                                        </button>
+                                        <button class="btn btn-light rounded-circle" id="repeatBtn">
+                                            <i class="fas fa-redo"></i>
+                                        </button>
+                                        
+                                        <div class="ms-auto d-flex align-items-center">
+                                            <i class="fas fa-volume-up me-2"></i>
+                                            <input type="range" class="form-range" min="0" max="100" value="100" id="volumeControl" style="width: 100px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <audio id="audioElement"></audio>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Audio categories -->
+                <div class="mb-4">
+                    <ul class="nav nav-tabs" id="audioTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab">Todos</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="music-tab" data-bs-toggle="tab" data-bs-target="#music" type="button" role="tab">Músicas</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="podcasts-tab" data-bs-toggle="tab" data-bs-target="#podcasts" type="button" role="tab">Podcasts</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="audiobooks-tab" data-bs-toggle="tab" data-bs-target="#audiobooks" type="button" role="tab">Audiobooks</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="playlists-tab" data-bs-toggle="tab" data-bs-target="#playlists" type="button" role="tab">Playlists</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content pt-3" id="audioTabsContent">
+                        <div class="tab-pane fade show active" id="all" role="tabpanel">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 50px;">#</th>
+                                            <th>Título</th>
+                                            <th>Artista/Autor</th>
+                                            <th>Álbum/Série</th>
+                                            <th>Duração</th>
+                                            <th>Tamanho</th>
+                                            <th>Data</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="audio-item" data-audio="uploads/audio/song1.mp3" data-title="Música Relaxante" data-artist="Artista Desconhecido">
+                                            <td>1</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="img/album-cover.jpg" alt="Album Cover" class="me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                                                    <span>Música Relaxante</span>
+                                                </div>
+                                            </td>
+                                            <td>Artista Desconhecido</td>
+                                            <td>Relaxamento</td>
+                                            <td>3:45</td>
+                                            <td>4.2 MB</td>
+                                            <td>10/06/2023</td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm btn-light" data-bs-toggle="dropdown">
+                                                        <i class="fas fa-ellipsis-v"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item play-audio" href="#"><i class="fas fa-play me-2"></i>Reproduzir</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="fas fa-plus me-2"></i>Adicionar à playlist</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="fas fa-download me-2"></i>Download</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="fas fa-share-alt me-2"></i>Compartilhar</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash me-2"></i>Excluir</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="audio-item" data-audio="uploads/audio/podcast1.mp3" data-title="Podcast Episódio 5" data-artist="Tech Talks">
+                                            <td>2</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="img/podcast-cover.jpg" alt="Podcast Cover" class="me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                                                    <span>Podcast Episódio 5</span>
+                                                </div>
+                                            </td>
+                                            <td>Tech Talks</td>
+                                            <td>Tecnologia Hoje</td>
+                                            <td>45:20</td>
+                                            <td>42 MB</td>
+                                            <td>05/06/2023</td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm btn-light" data-bs-toggle="dropdown">
+                                                        <i class="fas fa-ellipsis-v"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item play-audio" href="#"><i class="fas fa-play me-2"></i>Reproduzir</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="fas fa-plus me-2"></i>Adicionar à playlist</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="fas fa-download me-2"></i>Download</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="fas fa-share-alt me-2"></i>Compartilhar</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash me-2"></i>Excluir</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="audio-item" data-audio="uploads/audio/audiobook1.mp3" data-title="Capítulo 1 - Aventuras" data-artist="Autor Famoso">
+                                            <td>3</td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="img/audiobook-cover.jpg" alt="Audiobook Cover" class="me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                                                    <span>Capítulo 1 - Aventuras</span>
+                                                </div>
+                                            </td>
+                                            <td>Autor Famoso</td>
+                                            <td>Aventuras Fantásticas</td>
+                                            <td>1:12:35</td>
+                                            <td>68 MB</td>
+                                            <td>01/06/2023</td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm btn-light" data-bs-toggle="dropdown">
+                                                        <i class="fas fa-ellipsis-v"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item play-audio" href="#"><i class="fas fa-play me-2"></i>Reproduzir</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="fas fa-plus me-2"></i>Adicionar à playlist</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="fas fa-download me-2"></i>Download</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="fas fa-share-alt me-2"></i>Compartilhar</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash me-2"></i>Excluir</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="music" role="tabpanel">
+                            <!-- Conteúdo similar para a aba de músicas -->
+                            <p>Conteúdo de músicas será carregado aqui.</p>
+                        </div>
+                        <div class="tab-pane fade" id="podcasts" role="tabpanel">
+                            <!-- Conteúdo similar para a aba de podcasts -->
+                            <p>Conteúdo de podcasts será carregado aqui.</p>
+                        </div>
+                        <div class="tab-pane fade" id="audiobooks" role="tabpanel">
+                            <!-- Conteúdo similar para a aba de audiobooks -->
+                            <p>Conteúdo de audiobooks será carregado aqui.</p>
+                        </div>
+                        <div class="tab-pane fade" id="playlists" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-4 mb-4">
+                                    <div class="card h-100 border-0 shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Músicas Favoritas</h5>
+                                            <p class="card-text text-muted">12 faixas</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <button class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-play me-1"></i> Reproduzir
+                                                </button>
+                                                <div>
+                                                    <button class="btn btn-light btn-sm me-1">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-light btn-sm">
+                                                        <i class="fas fa-ellipsis-v"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-4">
+                                    <div class="card h-100 border-0 shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Podcasts de Tecnologia</h5>
+                                            <p class="card-text text-muted">8 episódios</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <button class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-play me-1"></i> Reproduzir
+                                                </button>
+                                                <div>
+                                                    <button class="btn btn-light btn-sm me-1">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-light btn-sm">
+                                                        <i class="fas fa-ellipsis-v"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-4">
+                                    <div class="card h-100 border-0 shadow-sm border-dashed">
+                                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                            <i class="fas fa-plus-circle fa-3x text-muted mb-3"></i>
+                                            <h5 class="card-title">Criar Nova Playlist</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Upload Audio Modal -->
+    <div class="modal fade" id="uploadAudioModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload de Áudio</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="uploadAudioForm">
+                        <div class="mb-3">
+                            <label for="audioTitle" class="form-label">Título</label>
+                            <input type="text" class="form-control" id="audioTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="audioArtist" class="form-label">Artista/Autor</label>
+                            <input type="text" class="form-control" id="audioArtist">
+                        </div>
+                        <div class="mb-3">
+                            <label for="audioAlbum" class="form-label">Álbum/Série</label>
+                            <input type="text" class="form-control" id="audioAlbum">
+                        </div>
+                        <div class="mb-3">
+                            <label for="audioCategory" class="form-label">Categoria</label>
+                            <select class="form-select" id="audioCategory">
+                                <option value="music">Música</option>
+                                <option value="podcast">Podcast</option>
+                                <option value="audiobook">Audiobook</option>
+                                <option value="other">Outro</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="audioCover" class="form-label">Imagem de Capa (opcional)</label>
+                            <input class="form-control" type="file" id="audioCover" accept="image/*">
+                        </div>
+                        <div class="mb-3">
+                            <label for="audioFile" class="form-label">Arquivo de Áudio</label>
+                            <input class="form-control" type="file" id="audioFile" accept="audio/*" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="uploadAudioButton">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/player.js"></script>
+</body>
+</html>
